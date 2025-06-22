@@ -1,45 +1,39 @@
-import React, { useRef, useState } from "react";
 import { sliderLists } from "../constants";
+import { useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 
 const Menu = () => {
+  const contentRef = useRef();
   const [currentIndex, setCurrentIndex] = useState(0);
-  const contentRef = useRef(null);
 
   useGSAP(() => {
     gsap.fromTo("#title", { opacity: 0 }, { opacity: 1, duration: 1 });
-
     gsap.fromTo(
       ".cocktail img",
       { opacity: 0, xPercent: -100 },
-      { opacity: 1, xPercent: 0, duration: 1, ease: "power1.inOut" }
-    );
-
-    gsap.fromTo(
-      ".details h2",
       {
-        yPercent: 100,
-        opacity: 0,
-      },
-      {
-        yPercent: 0,
+        xPercent: 0,
         opacity: 1,
         duration: 1,
         ease: "power1.inOut",
       }
     );
-
     gsap.fromTo(
-      ".details p",
-      {
-        yPercent: 100,
-        opacity: 0,
-      },
+      ".details h2",
+      { yPercent: 100, opacity: 0 },
       {
         yPercent: 0,
-        opacity: 1,
-        duration: 1,
+        opacity: 100,
+        ease: "power1.inOut",
+      }
+    );
+    gsap.fromTo(
+      ".details p",
+      { yPercent: 100, opacity: 0 },
+      {
+        yPercent: 0,
+        opacity: 100,
         ease: "power1.inOut",
       }
     );
@@ -60,8 +54,8 @@ const Menu = () => {
   };
 
   const currentCocktail = getCocktailAt(0);
-  const nextCocktail = getCocktailAt(1);
   const prevCocktail = getCocktailAt(-1);
+  const nextCocktail = getCocktailAt(1);
 
   return (
     <section id="menu" aria-labelledby="menu-heading">
@@ -87,11 +81,9 @@ const Menu = () => {
           return (
             <button
               key={cocktail.id}
-              className={`${
-                isActive
-                  ? "text-white border-white"
-                  : "text-white/50 border-white/50"
-              }`}
+              className={`
+				${isActive ? "text-white border-white" : "text-white/50 border-white/50"}
+			 `}
               onClick={() => goToSlide(index)}
             >
               {cocktail.name}
@@ -115,7 +107,7 @@ const Menu = () => {
           </button>
 
           <button
-            className="text-right"
+            className="text-left"
             onClick={() => goToSlide(currentIndex + 1)}
           >
             <span>{nextCocktail.name}</span>
@@ -146,5 +138,4 @@ const Menu = () => {
     </section>
   );
 };
-
 export default Menu;
