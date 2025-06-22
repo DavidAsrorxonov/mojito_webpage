@@ -12,6 +12,16 @@ const Menu = () => {
     setCurrentIndex(newIndex);
   };
 
+  const getCocktailAt = (indexOffset) => {
+    return sliderLists[
+      (currentIndex + indexOffset + totalCocktails) % totalCocktails
+    ];
+  };
+
+  const currentCocktail = getCocktailAt(0);
+  const nextCocktail = getCocktailAt(1);
+  const prevCocktail = getCocktailAt(-1);
+
   return (
     <section id="menu" aria-labelledby="menu-heading">
       <img
@@ -55,7 +65,7 @@ const Menu = () => {
             className="text-left"
             onClick={() => goToSlide(currentIndex - 1)}
           >
-            <span>prevcocktailName</span>
+            <span>{prevCocktail.name}</span>
             <img
               src="/images/right-arrow.png"
               alt="right-arrow"
@@ -67,13 +77,17 @@ const Menu = () => {
             className="text-right"
             onClick={() => goToSlide(currentIndex + 1)}
           >
-            <span>nextcocktailName</span>
+            <span>{nextCocktail.name}</span>
             <img
               src="/images/left-arrow.png"
               alt="left-arrow"
               aria-hidden="true"
             />
           </button>
+        </div>
+
+        <div className="cocktail">
+          <img src={currentCocktail.image} className="object-contain" />
         </div>
       </div>
     </section>
